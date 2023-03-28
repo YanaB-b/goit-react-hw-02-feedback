@@ -27,43 +27,49 @@ export class App extends Component {
     neutral: 0,
     bad: 0,
   };
-  countFeedback = feedback => {
-    this.setState(prevState => {
-      return { [feedback]: prevState[`${feedback}`] + 1 };
-    });
+  onLeaveFeedback = feedback => {
+    this.setState(prevState => ({
+       [feedback]: prevState[feedback] + 1 ,
+    }));
   };
-  countTotalFeedback() {
-    const total = Object.values(this.state).reduce((el, acc) => (acc += el), 0);
+  countTotalFeedback=()=> {
+    const total = this.state.good + this.state.neutral + this.state.bad;
     return total;
-  }
-  countPositiveFeedbackPercentage() {
-    const total = this.countTotalFeedback();
-    const positivePercentage = (this.state.good * 100) / total;
-    return Math.round(positivePercentage);
+  };
+  countPositiveFeedbackPercentage= () => {
+    let countTotalFeedback = 0;
+    if (this.countTotalFeedback() > 0) {
+      countTotalFeedback = Math.round(
+        (this.state.good / this.countTotalFeedback()) * 100
+      );
+    }
+    return countTotalFeedback;
   }
   render() {
     return (
       <div>
         <Title title="Plase leave feedback">
           <FeedbackOptions
-            options={{ good: 'good', neutral: 'neutral', bad: 'bad' }}
-            onLeaveFeedback={this.countFeedback}
-          />
+            options={[ 'good', 'neutral',  'bad' ]}
+            onLeaveFeedback={this.onLeaveFeedback}
+          ></FeedbackOptions>
         </Title>
         <Title title="Statistics">
-          {!this.countTotalFeedback() ? (
-            <Notification message={'There is no feedback'} />
-          ) : (
+          {this.countTotalFeedback() > 0 ?(
+            
             <Statistics
               good={this.state.good}
               neutral={this.state.neutral}
               bad={this.state.bad}
               total={this.countTotalFeedback()}
               positivePercentage={this.countPositiveFeedbackPercentage()}
-            />
+           ></Statistics>
+            ) :(
+           <Notification message={'There is no feedback'} />
           )}
         </Title>
       </div>
     );
   }
 }
+export default App;
