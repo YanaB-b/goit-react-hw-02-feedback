@@ -1,4 +1,4 @@
-import css from './Title.module.css'
+import css from './Title.module.css';
 
 const Title = ({ title, children }) => {
   return (

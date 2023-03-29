@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import Title from './Title/Title';
-import FeedbackOptions from './FeedbackOptions/FeedbackOptions';
-import Notification from './Notification/Notification';
-import Statistics from './Statistics/Statistics';
+import Title from '../Title/Title';
+import FeedbackOptions from '../FeedbackOptions/FeedbackOptions';
+import Notification from '../Notification/Notification';
+import Statistics from '../Statistics/Statistics';
+import css from './App.module.css';
 
 // export const App = () => {
 //   return (
@@ -29,14 +30,14 @@ export class App extends Component {
   };
   onLeaveFeedback = feedback => {
     this.setState(prevState => ({
-       [feedback]: prevState[feedback] + 1 ,
+      [feedback]: prevState[feedback] + 1,
     }));
   };
-  countTotalFeedback=()=> {
+  countTotalFeedback = () => {
     const total = this.state.good + this.state.neutral + this.state.bad;
     return total;
   };
-  countPositiveFeedbackPercentage= () => {
+  countPositiveFeedbackPercentage = () => {
     let countTotalFeedback = 0;
     if (this.countTotalFeedback() > 0) {
       countTotalFeedback = Math.round(
@@ -44,28 +45,27 @@ export class App extends Component {
       );
     }
     return countTotalFeedback;
-  }
+  };
   render() {
     return (
-      <div>
+      <div className={css.feedback}>
         <Title title="Plase leave feedback">
           <FeedbackOptions
-            options={[ 'good', 'neutral',  'bad' ]}
+            options={['good', 'neutral', 'bad']}
             onLeaveFeedback={this.onLeaveFeedback}
           ></FeedbackOptions>
         </Title>
         <Title title="Statistics">
-          {this.countTotalFeedback() > 0 ?(
-            
+          {this.countTotalFeedback() > 0 ? (
             <Statistics
               good={this.state.good}
               neutral={this.state.neutral}
               bad={this.state.bad}
               total={this.countTotalFeedback()}
               positivePercentage={this.countPositiveFeedbackPercentage()}
-           ></Statistics>
-            ) :(
-           <Notification message={'There is no feedback'} />
+            ></Statistics>
+          ) : (
+            <Notification message={'There is no feedback'} />
           )}
         </Title>
       </div>
