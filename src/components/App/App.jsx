@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Title from '../Title/Title';
+import Section from '../Section/Section';
 import FeedbackOptions from '../FeedbackOptions/FeedbackOptions';
 import Notification from '../Notification/Notification';
 import Statistics from '../Statistics/Statistics';
@@ -49,13 +49,13 @@ export class App extends Component {
   render() {
     return (
       <div className={css.feedback}>
-        <Title title="Plase leave feedback">
+        <Section title="Plase leave feedback">
           <FeedbackOptions
             options={['good', 'neutral', 'bad']}
             onLeaveFeedback={this.onLeaveFeedback}
           ></FeedbackOptions>
-        </Title>
-        <Title title="Statistics">
+        </Section>
+        <Section title="Statistics">
           {this.countTotalFeedback() > 0 ? (
             <Statistics
               good={this.state.good}
@@ -67,7 +67,7 @@ export class App extends Component {
           ) : (
             <Notification message={'There is no feedback'} />
           )}
-        </Title>
+        </Section>
       </div>
     );
   }
